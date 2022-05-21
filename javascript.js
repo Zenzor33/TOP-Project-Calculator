@@ -16,13 +16,40 @@ function operate(operator, num1, num2) {
   }
 }
 
-let numberButtons = Array.from(document.querySelectorAll("#number"));
-const buttonsPressed = [];
+const numberButtons = Array.from(document.querySelectorAll(".btn"));
+const btnClear = document.querySelector("#btnClear");
+let buttonsPressed = "";
 
 numberButtons.map((button) =>
   button.addEventListener("click", function (e) {
-    document.querySelector("#display").textContent = e.target.textContent;
-    buttonsPressed.push(e.target.textContent);
-    console.log(buttonsPressed);
+    // buttonsPressed.push(e.target.textContent);
+    // buttonsPressed.concat(e.target.textContent);
+    buttonsPressed += `${e.target.textContent}`;
+    document.querySelector("#display").textContent = buttonsPressed;
+    // console.log(buttonsPressed);
   })
 );
+
+btnClear.addEventListener("click", function () {
+  buttonsPressed = "";
+  document.querySelector("#display").textContent = buttonsPressed;
+  console.log("clear");
+});
+
+/*
+Algorithm:
+
+Roadblocks:
+
+How to store user input data
+How to listen to user input data to detect certain combinations
+If certain combinations detect, execute functions
+
+The user will be restricted to inputs of numberBtn -> operatorBtn -> numberBtn -> equal button
+
+Event listeners on ALL buttons to display the selections as a string
+Event listeners on number buttons to:store two numbers
+Event listeners on operator buttons to store which operation
+Event listeener on equal button to execute the operation
+
+*/
