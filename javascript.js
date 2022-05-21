@@ -22,11 +22,8 @@ let buttonsPressed = "";
 
 numberButtons.map((button) =>
   button.addEventListener("click", function (e) {
-    // buttonsPressed.push(e.target.textContent);
-    // buttonsPressed.concat(e.target.textContent);
     buttonsPressed += `${e.target.textContent}`;
     document.querySelector("#display").textContent = buttonsPressed;
-    // console.log(buttonsPressed);
   })
 );
 
