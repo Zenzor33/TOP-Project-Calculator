@@ -17,8 +17,6 @@ function operate(operator, num1, num2) {
 }
 
 const allButtons = Array.from(document.querySelectorAll(".btn"));
-// const numberButtons = Array.from(document.querySelectorAll("#number"));
-// const operatorButtons = Array.from(document.querySelectorAll("#operator"));
 const btnClear = document.querySelector("#btnClear");
 const btnEqual = document.querySelector("#equal");
 const obj = {};
@@ -26,11 +24,10 @@ const obj = {};
 allButtons.map((button) => button.addEventListener("click", calculate));
 
 function updateNum1(e) {
-  let buttonText = e.target.textContent;
   if (!obj["num1"]) {
-    obj["num1"] = buttonText;
+    obj["num1"] = e.target.textContent;
   } else if (!obj["operator"]) {
-    obj["num1"] += buttonText;
+    obj["num1"] += e.target.textContent;
   }
 }
 
@@ -63,9 +60,4 @@ function calculate(e) {
     updateNum2(e);
 
   console.log(obj);
-
-  // obj["num1"] = numberClicked;
-  // else if (!obj["operator"]) obj["num1"] += numberClicked;
-  // else if (!obj["num2"]) obj["num2"] = numberClicked;
-  // else if (obj["num2"]) obj["num2"] += numberClicked;
 }
