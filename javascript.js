@@ -1,3 +1,8 @@
+const allButtons = Array.from(document.querySelectorAll(".btn"));
+const obj = {};
+
+allButtons.map((button) => button.addEventListener("click", calculate));
+
 const add = (num1, num2) => parseInt(num1) + parseInt(num2);
 const subtract = (num1, num2) => parseInt(num1) - parseInt(num2);
 const multiply = (num1, num2) => parseInt(num1) * parseInt(num2);
@@ -15,13 +20,6 @@ function operate(operator, num1, num2) {
       return divide(num1, num2);
   }
 }
-
-const allButtons = Array.from(document.querySelectorAll(".btn"));
-const btnClear = document.querySelector("#btnClear");
-const btnEqual = document.querySelector("#equal");
-const obj = {};
-
-allButtons.map((button) => button.addEventListener("click", calculate));
 
 function updateNum1(e) {
   if (!obj["num1"]) obj["num1"] = e.target.textContent;
