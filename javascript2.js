@@ -24,11 +24,8 @@ const obj = {};
 allButtons.map((button) => button.addEventListener("click", calculate));
 
 function updateNum1(e) {
-  if (!obj["num1"]) {
-    obj["num1"] = e.target.textContent;
-  } else if (!obj["operator"]) {
-    obj["num1"] += e.target.textContent;
-  }
+  if (!obj["num1"]) obj["num1"] = e.target.textContent;
+  else if (!obj["operator"]) obj["num1"] += e.target.textContent;
 }
 
 function updateOperator(e) {
@@ -41,7 +38,6 @@ function updateNum2(e) {
 }
 
 function calculate(e) {
-  let buttonText = e.target.textContent;
   let userClicksNumber = e.target.id === "number";
   let userClicksOperator = e.target.id === "operator";
 
