@@ -16,128 +16,82 @@ function operate(operator, num1, num2) {
   }
 }
 
-const numberButtons = Array.from(document.querySelectorAll("#number"));
-const operatorButtons = Array.from(document.querySelectorAll("#operator"));
+const allButtons = Array.from(document.querySelectorAll(".btn"));
 const btnClear = document.querySelector("#btnClear");
 const btnEqual = document.querySelector("#equal");
-let buttonsPressed = "";
-// let buttonPressed2 = `${num1} `
 const obj = {};
 
-numberButtons.map((button) =>
-  button.addEventListener("click", storeNumberSelection)
-);
-operatorButtons.map((button) =>
-  button.addEventListener("click", storeOperatorSelection)
-);
+allButtons.map((button) => button.addEventListener("click", calculate));
 
-btnEqual.addEventListener("click", calculate);
+function updateNum1(e) {
+  if (!obj["num1"]) obj["num1"] = e.target.textContent;
+  else if (!obj["operator"]) obj["num1"] += e.target.textContent;
+}
 
-let previousOperatorValue;
-function calculate() {
-  if (obj["operator"] === "+") {
-    console.log(operate("+", obj["num1"], obj["num2"]));
-    previousOperatorValue = operate("+", obj["num1"], obj["num2"]);
-    const analyze = operate("+", obj["num1"], obj["num2"]);
-    delete obj["num1"];
+function updateOperator(e) {
+  obj["operator"] = e.target.textContent;
+}
+
+function updateNum2(e) {
+  if (!obj["num2"]) obj["num2"] = e.target.textContent;
+  else obj["num2"] += e.target.textContent;
+}
+
+function calculateOperator(e) {
+  const result = operate(obj["operator"], obj["num1"], obj["num2"]);
+  obj["num1"] = result;
+  obj["operator"] = e.target.textContent;
+  delete obj["num2"];
+}
+
+function calculateEqual(e) {
+  if (obj["num1"] && obj["operator"] && obj["num2"]) {
+    const result = operate(obj["operator"], obj["num1"], obj["num2"]);
+    obj["num1"] = result;
     delete obj["operator"];
     delete obj["num2"];
-    return analyze;
   }
 }
 
-function storeNumberSelection(e) {
-  let numberClicked = e.target.textContent;
-  if (!obj["num1"]) obj["num1"] = numberClicked;
-  else if (!obj["operator"]) obj["num1"] += numberClicked;
-  else if (!obj["num2"]) obj["num2"] = numberClicked;
-  else if (obj["num2"]) obj["num2"] += numberClicked;
+function clearObject() {
+  delete obj["num1"];
+  delete obj["operator"];
+  delete obj["num2"];
+}
+
+function updateDisplay() {
+  const display = document.querySelector("#display");
+  if (obj["num2"])
+    display.textContent = `${obj["num1"]} ${obj["operator"]} ${obj["num2"]}`;
+  else if (obj["operator"])
+    display.textContent = `${obj["num1"]} ${obj["operator"]}`;
+  else if (obj["num1"]) display.textContent = `${obj["num1"]}`;
+  else display.textContent = "";
+}
+
+function calculate(e) {
+  const number = e.target.id === "number";
+  const operator = e.target.id === "operator";
+  const equal = e.target.id === "equal";
+  const clear = e.target.id === "btnClear";
+
+  if ((number && !obj["num1"]) || (number && obj["num1"] && !obj["operator"]))
+    updateNum1(e);
+
+  if (operator && !obj["operator"] && obj["num1"]) updateOperator(e);
+
+  if (operator && obj["num1"] && obj["operator"] && obj["num2"])
+    calculateOperator(e);
+
+  if (equal) calculateEqual(e);
+  if (clear) clearObject();
+
+  if (
+    (number && obj["num1"] && obj["operator"]) ||
+    (number && obj["num1"] && obj["operator"] && obj["num2"])
+  )
+    updateNum2(e);
+
+  updateDisplay();
   console.log(obj);
-
-  buttonsPressed += `${e.target.textContent}`;
-  document.querySelector("#display").textContent = buttonsPressed;
 }
-
-function storeOperatorSelection(e) {
-  if (obj["operator"]) {
-    calculate();
-    document.querySelector("#display").textContent = previousOperatorValue;
-  }
-  if (!obj["operator"]) {
-    obj["operator"] = e.target.textContent;
-    console.log(obj);
-    buttonsPressed += `${e.target.textContent}`;
-    document.querySelector("#display").textContent = buttonsPressed;
-  }
-}
-
-btnClear.addEventListener("click", function () {
-  // buttonsPressed = "";
-  document.querySelector("#display").textContent = buttonsPressed;
-  console.log("clear");
-});
-
-/*
-Algorithm:
-
-Roadblocks:
-
-How to store user input data
-How to listen to user input data to detect certain combinations
-If certain combinations detect, execute functions
-
-The user will be restricted to inputs of numberBtn -> operatorBtn -> numberBtn -> equal button
-
-Event listeners on ALL buttons to display the selections as a string
-Event listeners on number buttons to:store two numbers
-Event listeners on operator buttons to store which operation
-Event listeener on equal button to execute the operation
-
-
-V2:
-functions:
-- add, subtract, multiply, divide: parses int values and returns
-- operate(operator, num1,num2)
-- updateDisplay()
-
-object:
-{
-  num1: num1
-  operator: operator
-  num2: num2
-  displayString: `${object.num1} ${object.operator} ${object.num2}`
-}
-
-displayString updates when user presses a button.
-- if a number button is pressed, the object updates and runs function updateDisplay()
-
-When a number button is pressed:
-- adds number to num1 or num2 in object
-- updateDisplay()
-
-When an operator button is pressed
-if (obj[operator] && obj[num1] && obj[num2]) {
-  - invokes operate(operator,num1,num2)
-  - num1 = return value of invoke
-  - operator = operator button pressed
-  - displayString = num1 + operator
-  - displayString not required for this project!
-
-}
-if (!obj['operator'])
-- sends operator to obj['operator']
-
-
-
-
-When equal is pressed
-- invokes operate(operator,num1,num2)
-- deletes operator, num2 from object
-- displayString is the return value of operate(operator,num1,num2)
-- sets obj.num1 = return value of operate(operator,num1,num2)
-
-When clear is pressed:
-- 
-
-
-*/
