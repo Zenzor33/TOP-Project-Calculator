@@ -93,4 +93,51 @@ Event listeners on number buttons to:store two numbers
 Event listeners on operator buttons to store which operation
 Event listeener on equal button to execute the operation
 
+
+V2:
+functions:
+- add, subtract, multiply, divide: parses int values and returns
+- operate(operator, num1,num2)
+- updateDisplay()
+
+object:
+{
+  num1: num1
+  operator: operator
+  num2: num2
+  displayString: `${object.num1} ${object.operator} ${object.num2}`
+}
+
+displayString updates when user presses a button.
+- if a number button is pressed, the object updates and runs function updateDisplay()
+
+When a number button is pressed:
+- adds number to num1 or num2 in object
+- updateDisplay()
+
+When an operator button is pressed
+if (obj[operator] && obj[num1] && obj[num2]) {
+  - invokes operate(operator,num1,num2)
+  - num1 = return value of invoke
+  - operator = operator button pressed
+  - displayString = num1 + operator
+  - displayString not required for this project!
+
+}
+if (!obj['operator'])
+- sends operator to obj['operator']
+
+
+
+
+When equal is pressed
+- invokes operate(operator,num1,num2)
+- deletes operator, num2 from object
+- displayString is the return value of operate(operator,num1,num2)
+- sets obj.num1 = return value of operate(operator,num1,num2)
+
+When clear is pressed:
+- 
+
+
 */
